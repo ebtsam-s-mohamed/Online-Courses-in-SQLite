@@ -1,0 +1,65 @@
+-- Displaying first view rows 
+SELECT * 
+FROM courses 
+LIMIT 5; 
+
+-- Totol entries
+SELECT COUNT(*) AS total_entries
+FROM courses;
+
+-- AVG, MAX and MIN of rating column
+SELECT AVG(rating) AS Avg_rating, 
+		MAX(rating) AS Max_rating,
+		MIN(rating) AS Min_rating
+FROM courses;
+
+-- # of courses in each category
+SELECT category,
+		COUNT(*) num_of_couses
+FROM courses
+GROUP BY category;
+
+-- Top rated courses in for each category
+SELECT category,
+	   ROUND(rating, 2) AS rating
+FROM courses 
+GROUP BY category
+HAVING rating = MAX(rating);
+
+-- Most profitable courses
+SELECT title,
+		ROUND(estEarning,0)
+FROM courses
+WHERE estEarning > 10000
+ORDER BY estEarning DESC
+LIMIT 10; 
+
+-- Ratings of different platforms
+SELECT platform, 
+	    ROUND(AVG(rating),0) AS avg_rating
+FROM courses
+GROUP BY platform
+ORDER BY avg_rating DESC;
+
+-- Most popular categories among students
+SELECT category,
+	   SUM(students) AS TotalStudents
+FROM courses
+GROUP BY category
+ORDER BY TotalStudents DESC 
+LIMIT 10;
+
+-- Instructors Distribution to courses 
+SELECT title, LENGTH(instructors) AS total_instructors
+FROM courses
+GROUP BY title
+ORDER BY total_instructors DESC
+LIMIT 20;
+
+-- Which categories had the most topics
+SELECT category,
+		COUNT(DISTINCT topics) AS topics
+FROM courses
+GROUP BY category 
+ORDER BY topics DESC 
+LIMIT 20;
